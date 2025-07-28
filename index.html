@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <title>اکباتان نیوز - صفحه اصلی</title>
+<link rel="stylesheet" href="/static/style.css" />
+<div class="loader-container">
+  <div class="loader"></div>
+</div>
+
+  <style>
+    body {
+      direction: rtl;
+      font-family: Tahoma, sans-serif;
+      background: #fafafa;
+      margin: 0;
+      padding: 0 20px;
+    }
+    header, footer {
+      background: #d6336c;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgb(214 51 108 / 0.3);
+    }
+    article {
+      margin-bottom: 25px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+    }
+    article h3 {
+      color: #d6336c;
+      margin-bottom: 8px;
+    }
+    article p {
+      line-height: 1.5;
+      color: #444;
+    }
+    .meta {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 8px;
+    }
+    a.all-news-link {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 20px;
+      background: #d6336c;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: background 0.3s ease;
+    }
+    a.all-news-link:hover {
+      background: #b32e5b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>اکباتان نیوز</h1>
+    <nav>
+<nav>
+  <a href="/">خانه</a>
+  <a href="/all-news">تمامی خبرها</a>
+  <a href="/admin">پنل ادمین</a>
+</nav>
+
+    </nav>
+  </header>
+
+  <main>
+    <h2>آخرین اخبار</h2>
+    <div id="latest-news">در حال بارگذاری...</div>
+<a href="/all-news" class="all-news-link">مشاهده تمامی خبرها</a>
+
+  </main>
+
+  <footer>
+    <p>© 2025 اکباتان نیوز</p>
+  </footer>
+
+  <script>
+    const supabaseUrl = "https://flnalhwhnmlsfcdushci.supabase.co";
+    const supabaseKey =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsbmFsaHdobm1sc2ZjZHVzaGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2OTU5OTMsImV4cCI6MjA2OTI3MTk5M30.NCvPGtqlCMCQYouZohz7O_lwfx3fHpLGxCdIOrzUQL0";
+
+    async function fetchLatestNews() {
+      const res = await fetch(`${supabaseUrl}/rest/v1/news?select=*&order=created_at.desc&limit=5`, {
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`
+        }
+      });
+
+      if (!res.ok) {
+        document.getElementById("latest-news").textContent = "خطا در بارگذاری اخبار.";
+        return;
+      }
+
+      const data = await res.json();
+      const container = document.getElementById("latest-news");
+
+      if (data.length === 0) {
+        container.innerHTML = "<p>خبر جدیدی وجود ندارد.</p>";
+        return;
+      }
+
+      container.innerHTML = data
+        .map(n => `
+          <article>
+            <h3>${n.title}</h3>
+            <div class="meta">
+              <span>دسته‌بندی: ${n.category}</span> |
+              <span>تاریخ: ${new Date(n.created_at).toLocaleDateString('fa-IR')}</span>
+            </div>
+            ${n.image_url ? `<img src="${n.image_url}" alt="خبر" style="max-width:100%; border-radius:6px; margin-top:10px;">` : ""}
+            <p>${n.content.length > 150 ? n.content.slice(0, 150) + "..." : n.content}</p>
+          </article>
+        `).join("");
+    }
+
+    fetchLatestNews();
+  </script>
+</body>
+</html>
