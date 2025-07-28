@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <title>تمامی خبرها | اکباتان نیوز</title>
+ <link rel="stylesheet" href="/static/style.css">
+<div class="loader-container">
+  <div class="loader"></div>
+</div>
+
+  <style>
+    body {
+      direction: rtl;
+      font-family: Tahoma, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0 20px;
+    }
+    header, footer {
+      text-align: center;
+      padding: 20px 0;
+      background: #d6336c;
+      color: white;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 3px 8px rgb(214 51 108 / 0.3);
+    }
+    article {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+    }
+    article img {
+      max-width: 100%;
+      border-radius: 6px;
+      margin-top: 10px;
+    }
+    article h3 {
+      margin-bottom: 6px;
+      color: #d6336c;
+    }
+    article p {
+      line-height: 1.5;
+      color: #333;
+    }
+    .meta {
+      font-size: 0.9em;
+      color: #666;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>تمامی خبرها</h1>
+    <nav>
+<nav>
+  <a href="/">خانه</a>
+  <a href="/all-news">تمامی خبرها</a>
+  <a href="/admin">پنل ادمین</a>
+</nav>
+
+    </nav>
+  </header>
+
+  <main>
+    <div id="all-news">در حال بارگذاری...</div>
+  </main>
+
+  <footer>
+    <p>© 2025 اکباتان نیوز</p>
+  </footer>
+
+  <script>
+    const supabaseUrl = "https://flnalhwhnmlsfcdushci.supabase.co";
+    const supabaseKey =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZsbmFsaHdobm1sc2ZjZHVzaGNpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2OTU5OTMsImV4cCI6MjA2OTI3MTk5M30.NCvPGtqlCMCQYouZohz7O_lwfx3fHpLGxCdIOrzUQL0";
+
+    async function fetchAllNews() {
+      const res = await fetch(`${supabaseUrl}/rest/v1/news?select=*&order=created_at.desc`, {
+        headers: {
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`
+        }
+      });
+      if (!res.ok) {
+        document.getElementById("all-news").textContent = "خطا در بارگذاری خبرها.";
+        return;
+      }
+      const data = await res.json();
+      const container = document.getElementById("all-news");
+
+      if (data.length === 0) {
+        container.innerHTML = "<p>خبری وجود ندارد.</p>";
+        return;
+      }
+
+      container.innerHTML = data
+        .map(n => `
+          <article>
+            <h3>${n.title}</h3>
+            <div class="meta">
+              <span>دسته‌بندی: ${n.category}</span> |
+              <span>تاریخ: ${new Date(n.created_at).toLocaleDateString('fa-IR')}</span>
+            </div>
+            ${n.image_url ? `<img src="${n.image_url}" alt="خبر">` : ""}
+            <p>${n.content}</p>
+          </article>
+        `).join("");
+    }
+
+    fetchAllNews();
+  </script>
+</body>
+</html>

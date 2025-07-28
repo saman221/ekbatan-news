@@ -1,0 +1,152 @@
+/* style.css */
+
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  direction: rtl;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+body {
+  background-color: #f7f7f7;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+header {
+  background-color: #d6336c; /* صورتی تیره */
+  padding: 15px 20px;
+  color: white;
+  margin-bottom: 30px;
+  border-radius: 8px;
+}
+
+header h1 {
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 12px;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #ffc9e3; /* صورتی روشن */
+}
+
+main h2 {
+  margin-bottom: 20px;
+  color: #d6336c;
+  font-weight: 700;
+}
+
+#latest-news, #all-news {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+article {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 7px rgba(214, 51, 108, 0.15);
+}
+
+article h3 {
+  margin-bottom: 10px;
+  color: #d6336c;
+}
+
+article img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+footer {
+  margin-top: 40px;
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
+}
+
+/* پنل ادمین */
+form {
+  background: white;
+  padding: 25px;
+  border-radius: 8px;
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 2px 10px rgba(214, 51, 108, 0.2);
+}
+
+label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: 600;
+  color: #444;
+}
+
+input[type="text"],
+input[type="url"],
+textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1.8px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="url"]:focus,
+textarea:focus {
+  border-color: #d6336c;
+  outline: none;
+}
+
+button {
+  background-color: #d6336c;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #b32e5b;
+}
+
+#msg {
+  margin-top: 15px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* ریسپانسیو */
+@media (max-width: 700px) {
+  body {
+    padding: 10px;
+  }
+
+  nav a {
+    display: inline-block;
+    margin: 0 6px;
+  }
+
+  form {
+    width: 100%;
+    padding: 15px;
+  }
+}
